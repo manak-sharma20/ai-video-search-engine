@@ -5,7 +5,6 @@ from search import search_embeddings
 import clip
 import torch
 
-
 video_path="data/video.mp4"
 segments= extract_audio_segments(video_path)
 frames=extract_frames(video_path)
@@ -16,6 +15,6 @@ query = input("Enter your search query: ")
 clip_text=clip.tokenize([query])
 with torch.no_grad():
     text_features = clip_model.encode_text(clip_text)
-query_embedding = text_features.encode_text(query).tolist()
+query_embedding = text_features.squeeze().tolist()
 results = search_embeddings(query_embedding)
 print(results)

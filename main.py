@@ -7,20 +7,20 @@ import torch
 
 video_path = input("Enter video path: ")
 
-# 🔥 Clear old data
+# Clear old data
 collection.delete(where={})
 
-# 🎤 Audio (not used yet but ready)
+# Audio (not used yet but ready)
 segments = extract_audio_segments(video_path)
 
-# 🎥 Vision
+# Vision
 frames = extract_frames(video_path)
 frame_embeddings = generate_clip_embeddings(frames)
 
-# 🧠 Store
+#  Store
 add_embeddings(frame_embeddings)
 
-# 🔍 Load CLIP for query
+# Load CLIP for query
 clip_model, preprocess = clip.load("ViT-B/32")
 
 query = input("Enter your search query: ")

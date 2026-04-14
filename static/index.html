@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "tertiary": "#ff59e3",
+                  "surface-container-low": "#131316",
+                  "primary-fixed": "#00eefc",
+                  "error-dim": "#d73357",
+                  "secondary-fixed": "#dac9ff",
+                  "error": "#ff6e84",
+                  "on-error-container": "#ffb2b9",
+                  "surface": "#0e0e11",
+                  "on-secondary-fixed-variant": "#6300e2",
+                  "tertiary-container": "#ff05e5",
+                  "surface-bright": "#2c2c30",
+                  "on-primary-fixed-variant": "#005e64",
+                  "surface-container": "#19191d",
+                  "background": "#0e0e11",
+                  "on-surface": "#f3f0f4",
+                  "outline-variant": "#48474b",
+                  "primary-fixed-dim": "#00deec",
+                  "on-secondary": "#290067",
+                  "on-tertiary-fixed": "#33002d",
+                  "inverse-surface": "#fcf8fd",
+                  "tertiary-fixed-dim": "#ff68e3",
+                  "on-primary-fixed": "#003f43",
+                  "surface-variant": "#25252a",
+                  "secondary": "#ac89ff",
+                  "on-secondary-fixed": "#41009a",
+                  "on-primary": "#005d63",
+                  "surface-tint": "#8ff5ff",
+                  "outline": "#767579",
+                  "inverse-primary": "#006a71",
+                  "surface-container-high": "#1f1f23",
+                  "surface-container-highest": "#25252a",
+                  "error-container": "#a70138",
+                  "inverse-on-surface": "#555458",
+                  "primary": "#8ff5ff",
+                  "on-background": "#f3f0f4",
+                  "tertiary-dim": "#ff59e3",
+                  "primary-dim": "#00deec",
+                  "on-tertiary": "#42003a",
+                  "on-primary-container": "#005359",
+                  "tertiary-fixed": "#ff85e4",
+                  "on-tertiary-container": "#1b0017",
+                  "secondary-dim": "#874cff",
+                  "primary-container": "#00eefc",
+                  "on-secondary-container": "#f8f1ff",
+                  "surface-container-lowest": "#000000",
+                  "on-error": "#490013",
+                  "on-surface-variant": "#acaaae",
+                  "secondary-container": "#7000ff",
+                  "on-tertiary-fixed-variant": "#6d0061",
+                  "surface-dim": "#0e0e11",
+                  "secondary-fixed-dim": "#ceb9ff"
+          },
+          "borderRadius": {
+                  "DEFAULT": "1rem",
+                  "lg": "2rem",
+                  "xl": "3rem",
+                  "full": "9999px"
+          },
+          "fontFamily": {
+                  "headline": ["Space Grotesk"],
+                  "body": ["Manrope"],
+                  "label": ["Manrope"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body { font-family: 'Manrope', sans-serif; }
+    h1, h2, h3, .headline { font-family: 'Space Grotesk', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .glass-effect { backdrop-filter: blur(16px); }
+  </style>
+  <script src="app.js" defer></script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar (Shared Component) -->
+<nav class="w-full top-0 sticky bg-[#0e0e11] dark:bg-[#0e0e11] flex justify-between items-center px-8 py-4 z-50">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tighter text-[#f3f0f4] font-['Space_Grotesk']">Obsidian Lens</span>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-tight font-semibold">
+<a class="text-[#8ff5ff] border-b-2 border-[#8ff5ff] pb-1" href="#">Discover</a>
+<a class="text-[#acaaae] hover:text-[#f3f0f4] transition-colors" href="#">Library</a>
+<a class="text-[#acaaae] hover:text-[#f3f0f4] transition-colors" href="#">Collections</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#acaaae] hover:bg-[#1f1f23] transition-all duration-300 rounded-full active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-[#acaaae] hover:bg-[#1f1f23] transition-all duration-300 rounded-full active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional man with clean lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYJSSvlryRQSlrHSCSA8oviQb1C7XEQAwKxeVzMFXkrf5q31vzvvk7ot6mFBjOYmrYBtRD9IRkiHbCR9HlYiPoKmb8q3uy1nqF5_sbwzJ-enbHsA1RPBt8tpfjILmt_QIM0Ev4hb6Cj73BrppWoLFXXO2hU8_wK_vBIdbB_ksiNdDySxfru-x9UxZum_H1OS0xcuQpOIUN5PpOe_tHSf_ozUELJByl3ecypSmCbrN-9Y4iMYStwAGpVrEopTvbJXXClI7YWHRVp7zy"/>
+</div>
+</div>
+</nav>
+<main class="flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden">
+<!-- Left Column: Cinematic Video Player (65%) -->
+<section class="flex-1 md:w-[65%] h-full p-6 flex flex-col gap-6">
+<div class="relative flex-1 bg-surface-container-lowest rounded-lg overflow-hidden shadow-2xl shadow-black/50 group">
+<!-- Main Video Placeholder -->
+<div class="absolute inset-0 w-full h-full">
+<video id="main-video" class="w-full h-full object-cover opacity-90" controls></video>
+</div>
+<!-- Custom Controls Hidden for now -->
+<!-- Video Overlay / Timestamp -->
+<div class="absolute top-6 left-6 px-4 py-2 bg-surface-container-lowest/60 glass-effect rounded-full text-primary font-headline font-bold text-lg hidden" id="video-overlay">
+  00:00
+</div>
+</div>
+</section>
+<!-- Right Column: Search & Results (35%) -->
+<aside class="w-full md:w-[35%] h-full bg-surface-container-low p-6 flex flex-col gap-8 overflow-y-auto">
+<!-- Search Command Center -->
+<div class="flex flex-col gap-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+</div>
+<input id="search-input" class="w-full bg-surface-container-highest border-none rounded-xl py-5 pl-16 pr-6 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 focus:bg-primary/5 transition-all outline-none headline text-lg" placeholder="Search anything in the video..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<input type="file" id="file-input" class="hidden" accept="video/*" />
+<button id="upload-btn" class="flex-1 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 rounded-sm active:scale-95 transition-transform">
+            Upload Source
+          </button>
+<button class="p-3 bg-surface-container-high text-on-surface hover:bg-surface-bright rounded-sm transition-colors">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</div>
+<!-- Results Section -->
+<div class="flex flex-col gap-6">
+<h3 class="text-on-surface-variant font-headline font-semibold text-xs tracking-widest uppercase">RELEVANT MOMENTS</h3>
+<div class="space-y-6" id="results-container">
+<!-- Results will be injected here -->
+</div>
+</div>
+<!-- Action Chips (Bottom Fixedish) -->
+<div class="mt-auto pt-8 flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Cinematic</span>
+<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Urban Exploration</span>
+<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">4K Narrative</span>
+<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Tech Showcase</span>
+</div>
+</aside>
+</main>
+</body></html>

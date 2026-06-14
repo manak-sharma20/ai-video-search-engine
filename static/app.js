@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showStatus('Finalizing…', 'Almost there', 90, 'Step 3 of 3 — Loading video');
 
     mainVideo.src = '/video?' + Date.now();
+    mainVideo.load(); // force browser to re-fetch, not use cache
     mainVideo.classList.remove('hidden');
     videoPlaceholder.classList.add('hidden');
 

@@ -145,7 +145,11 @@ async def youtube_upload(req: YouTubeRequest):
 async def get_video():
     if not os.path.exists("current_video.mp4"):
         raise HTTPException(status_code=404, detail="No video found")
-    return FileResponse("current_video.mp4", media_type="video/mp4")
+    return FileResponse(
+        "current_video.mp4",
+        media_type="video/mp4",
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate"},
+    )
 
 
 @app.get("/search")

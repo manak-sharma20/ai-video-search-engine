@@ -1,165 +1,268 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Obsidian Lens — AI Video Search</title>
+  <meta name="description" content="Search inside any video using natural language. Upload a local file or paste a YouTube URL."/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
-          "colors": {
-                  "tertiary": "#ff59e3",
-                  "surface-container-low": "#131316",
-                  "primary-fixed": "#00eefc",
-                  "error-dim": "#d73357",
-                  "secondary-fixed": "#dac9ff",
-                  "error": "#ff6e84",
-                  "on-error-container": "#ffb2b9",
-                  "surface": "#0e0e11",
-                  "on-secondary-fixed-variant": "#6300e2",
-                  "tertiary-container": "#ff05e5",
-                  "surface-bright": "#2c2c30",
-                  "on-primary-fixed-variant": "#005e64",
-                  "surface-container": "#19191d",
-                  "background": "#0e0e11",
-                  "on-surface": "#f3f0f4",
-                  "outline-variant": "#48474b",
-                  "primary-fixed-dim": "#00deec",
-                  "on-secondary": "#290067",
-                  "on-tertiary-fixed": "#33002d",
-                  "inverse-surface": "#fcf8fd",
-                  "tertiary-fixed-dim": "#ff68e3",
-                  "on-primary-fixed": "#003f43",
-                  "surface-variant": "#25252a",
-                  "secondary": "#ac89ff",
-                  "on-secondary-fixed": "#41009a",
-                  "on-primary": "#005d63",
-                  "surface-tint": "#8ff5ff",
-                  "outline": "#767579",
-                  "inverse-primary": "#006a71",
-                  "surface-container-high": "#1f1f23",
-                  "surface-container-highest": "#25252a",
-                  "error-container": "#a70138",
-                  "inverse-on-surface": "#555458",
-                  "primary": "#8ff5ff",
-                  "on-background": "#f3f0f4",
-                  "tertiary-dim": "#ff59e3",
-                  "primary-dim": "#00deec",
-                  "on-tertiary": "#42003a",
-                  "on-primary-container": "#005359",
-                  "tertiary-fixed": "#ff85e4",
-                  "on-tertiary-container": "#1b0017",
-                  "secondary-dim": "#874cff",
-                  "primary-container": "#00eefc",
-                  "on-secondary-container": "#f8f1ff",
-                  "surface-container-lowest": "#000000",
-                  "on-error": "#490013",
-                  "on-surface-variant": "#acaaae",
-                  "secondary-container": "#7000ff",
-                  "on-tertiary-fixed-variant": "#6d0061",
-                  "surface-dim": "#0e0e11",
-                  "secondary-fixed-dim": "#ceb9ff"
+          colors: {
+            "surface-container-low":     "#131316",
+            "surface":                   "#0e0e11",
+            "surface-bright":            "#2c2c30",
+            "surface-container":         "#19191d",
+            "surface-container-high":    "#1f1f23",
+            "surface-container-highest": "#25252a",
+            "surface-container-lowest":  "#000000",
+            "surface-variant":           "#25252a",
+            "on-surface":                "#f3f0f4",
+            "on-surface-variant":        "#acaaae",
+            "outline":                   "#767579",
+            "outline-variant":           "#48474b",
+            "primary":                   "#8ff5ff",
+            "primary-container":         "#00eefc",
+            "primary-fixed":             "#00eefc",
+            "on-primary":                "#005d63",
+            "secondary":                 "#ac89ff",
+            "secondary-container":       "#7000ff",
+            "error":                     "#ff6e84",
           },
-          "borderRadius": {
-                  "DEFAULT": "1rem",
-                  "lg": "2rem",
-                  "xl": "3rem",
-                  "full": "9999px"
-          },
-          "fontFamily": {
-                  "headline": ["Space Grotesk"],
-                  "body": ["Manrope"],
-                  "label": ["Manrope"]
+          fontFamily: {
+            "headline": ["Space Grotesk", "sans-serif"],
+            "body":     ["Manrope", "sans-serif"],
           }
-        },
-      },
+        }
+      }
     }
   </script>
-<style>
+  <style>
     body { font-family: 'Manrope', sans-serif; }
     h1, h2, h3, .headline { font-family: 'Space Grotesk', sans-serif; }
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    .glass-effect { backdrop-filter: blur(16px); }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      user-select: none;
+    }
+    /* Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 1s linear infinite; display: inline-block; }
+
+    /* Pulsing dots */
+    @keyframes pulse-dot {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+      40%            { opacity: 1;   transform: scale(1); }
+    }
+    .dot-1 { animation: pulse-dot 1.4s ease-in-out 0s   infinite; }
+    .dot-2 { animation: pulse-dot 1.4s ease-in-out 0.2s infinite; }
+    .dot-3 { animation: pulse-dot 1.4s ease-in-out 0.4s infinite; }
+
+    /* Progress bar shimmer */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+    .progress-bar-shimmer {
+      background: linear-gradient(90deg, #8ff5ff 0%, #00eefc 40%, #8ff5ff 60%, #8ff5ff 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s linear infinite;
+    }
+
+    /* Tab */
+    .tab-btn { transition: color 0.2s, border-color 0.2s; }
+    .tab-btn.active      { color: #8ff5ff; border-color: #8ff5ff; }
+    .tab-btn:not(.active){ color: #767579; border-color: transparent; }
+
+    /* Result card */
+    .result-card {
+      transition: transform 0.15s ease, background-color 0.15s ease,
+                  border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .result-card:hover { transform: translateY(-2px); }
+    .result-card.active-card { box-shadow: 0 0 20px rgba(143,245,255,0.15); }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #48474b; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #767579; }
   </style>
   <script src="app.js" defer></script>
 </head>
-<body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
-<!-- TopNavBar (Shared Component) -->
-<nav class="w-full top-0 sticky bg-[#0e0e11] dark:bg-[#0e0e11] flex justify-between items-center px-8 py-4 z-50">
-<div class="flex items-center gap-12">
-<span class="text-2xl font-bold tracking-tighter text-[#f3f0f4] font-['Space_Grotesk']">Obsidian Lens</span>
-<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-tight font-semibold">
-<a class="text-[#8ff5ff] border-b-2 border-[#8ff5ff] pb-1" href="#">Discover</a>
-<a class="text-[#acaaae] hover:text-[#f3f0f4] transition-colors" href="#">Library</a>
-<a class="text-[#acaaae] hover:text-[#f3f0f4] transition-colors" href="#">Collections</a>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-[#acaaae] hover:bg-[#1f1f23] transition-all duration-300 rounded-full active:scale-95">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 text-[#acaaae] hover:bg-[#1f1f23] transition-all duration-300 rounded-full active:scale-95">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
-<img alt="User profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional man with clean lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYJSSvlryRQSlrHSCSA8oviQb1C7XEQAwKxeVzMFXkrf5q31vzvvk7ot6mFBjOYmrYBtRD9IRkiHbCR9HlYiPoKmb8q3uy1nqF5_sbwzJ-enbHsA1RPBt8tpfjILmt_QIM0Ev4hb6Cj73BrppWoLFXXO2hU8_wK_vBIdbB_ksiNdDySxfru-x9UxZum_H1OS0xcuQpOIUN5PpOe_tHSf_ozUELJByl3ecypSmCbrN-9Y4iMYStwAGpVrEopTvbJXXClI7YWHRVp7zy"/>
-</div>
-</div>
-</nav>
-<main class="flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden">
-<!-- Left Column: Cinematic Video Player (65%) -->
-<section class="flex-1 md:w-[65%] h-full p-6 flex flex-col gap-6">
-<div class="relative flex-1 bg-surface-container-lowest rounded-lg overflow-hidden shadow-2xl shadow-black/50 group">
-<!-- Main Video Placeholder -->
-<div class="absolute inset-0 w-full h-full">
-<video id="main-video" class="w-full h-full object-cover opacity-90" controls></video>
-</div>
-<!-- Custom Controls Hidden for now -->
-<!-- Video Overlay / Timestamp -->
-<div class="absolute top-6 left-6 px-4 py-2 bg-surface-container-lowest/60 glass-effect rounded-full text-primary font-headline font-bold text-lg hidden" id="video-overlay">
-  00:00
-</div>
-</div>
-</section>
-<!-- Right Column: Search & Results (35%) -->
-<aside class="w-full md:w-[35%] h-full bg-surface-container-low p-6 flex flex-col gap-8 overflow-y-auto">
-<!-- Search Command Center -->
-<div class="flex flex-col gap-4">
-<div class="relative group">
-<div class="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
-</div>
-<input id="search-input" class="w-full bg-surface-container-highest border-none rounded-xl py-5 pl-16 pr-6 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 focus:bg-primary/5 transition-all outline-none headline text-lg" placeholder="Search anything in the video..." type="text"/>
-</div>
-<div class="flex items-center gap-3">
-<input type="file" id="file-input" class="hidden" accept="video/*" />
-<button id="upload-btn" class="flex-1 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 rounded-sm active:scale-95 transition-transform">
-            Upload Source
+<body class="bg-surface text-on-surface">
+
+  <!-- Navbar -->
+  <nav class="w-full sticky top-0 bg-[#0e0e11]/95 backdrop-blur flex items-center justify-between px-6 py-3.5 z-50 border-b border-outline-variant/20">
+    <div class="flex items-center gap-2.5">
+      <span class="material-symbols-outlined text-primary text-[22px]">video_search</span>
+      <span class="text-xl font-bold tracking-tight text-[#f3f0f4] font-['Space_Grotesk']">Obsidian Lens</span>
+    </div>
+    <span class="text-on-surface-variant text-xs hidden sm:block">AI-powered semantic video search</span>
+  </nav>
+
+  <main class="flex flex-col md:flex-row" style="height: calc(100vh - 57px); overflow: hidden;">
+
+    <!-- ── Left: Video Player (65%) ── -->
+    <section class="flex-1 md:w-[65%] h-full p-4 flex flex-col min-h-0">
+      <div class="relative flex-1 bg-black rounded-2xl overflow-hidden shadow-2xl border border-outline-variant/10">
+
+        <video id="main-video" class="w-full h-full object-contain hidden" controls preload="metadata"></video>
+
+        <div id="video-placeholder" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center p-8">
+          <div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center">
+            <span class="material-symbols-outlined text-outline/40" style="font-size:40px;">video_library</span>
+          </div>
+          <div>
+            <p class="text-on-surface font-headline font-semibold text-base">No video loaded</p>
+            <p class="text-on-surface-variant text-sm mt-1 max-w-xs">Upload a local video or paste a YouTube link to begin searching</p>
+          </div>
+        </div>
+
+        <div id="video-overlay" class="hidden absolute top-4 left-4 px-3 py-1.5 bg-black/70 backdrop-blur rounded-full text-primary font-headline font-bold text-sm">
+          00:00
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Right: Control Panel (35%) ── -->
+    <aside id="aside-panel" class="w-full md:w-[35%] h-full bg-surface-container-low flex flex-col border-l border-outline-variant/10 overflow-y-auto">
+
+      <!-- PANEL A: Upload -->
+      <div id="panel-upload" class="flex flex-col gap-5 p-5">
+
+        <div>
+          <p class="text-on-surface font-headline font-semibold text-sm">Load a Video</p>
+          <p class="text-on-surface-variant text-xs mt-0.5">Supports YouTube URLs and local mp4/mov files</p>
+        </div>
+
+        <!-- Tab switcher -->
+        <div class="flex border-b border-outline-variant/30">
+          <button id="tab-yt" class="tab-btn active flex-1 py-2.5 text-sm font-semibold font-headline border-b-2 focus:outline-none">
+            YouTube URL
           </button>
-<button class="p-3 bg-surface-container-high text-on-surface hover:bg-surface-bright rounded-sm transition-colors">
-<span class="material-symbols-outlined" data-icon="tune">tune</span>
-</button>
-</div>
-</div>
-<!-- Results Section -->
-<div class="flex flex-col gap-6">
-<h3 class="text-on-surface-variant font-headline font-semibold text-xs tracking-widest uppercase">RELEVANT MOMENTS</h3>
-<div class="space-y-6" id="results-container">
-<!-- Results will be injected here -->
-</div>
-</div>
-<!-- Action Chips (Bottom Fixedish) -->
-<div class="mt-auto pt-8 flex flex-wrap gap-2">
-<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Cinematic</span>
-<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Urban Exploration</span>
-<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">4K Narrative</span>
-<span class="px-3 py-1.5 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-sm hover:bg-primary hover:text-on-primary transition-colors cursor-pointer">Tech Showcase</span>
-</div>
-</aside>
-</main>
-</body></html>
+          <button id="tab-local" class="tab-btn flex-1 py-2.5 text-sm font-semibold font-headline border-b-2 focus:outline-none">
+            Local File
+          </button>
+        </div>
+
+        <!-- YouTube Tab -->
+        <div id="tab-content-yt" class="flex flex-col gap-3">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-outline text-[18px]">link</span>
+            </div>
+            <input
+              id="yt-url-input"
+              type="text"
+              placeholder="https://youtube.com/watch?v=..."
+              class="w-full bg-surface-container-highest rounded-xl py-3.5 pl-10 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/30 outline-none transition-all text-sm border border-transparent focus:border-primary/20"
+            />
+          </div>
+          <button id="yt-load-btn"
+            class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-semibold py-3.5 rounded-xl active:scale-95 transition-all shadow-lg shadow-primary/10 text-sm">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+            Load from YouTube
+          </button>
+        </div>
+
+        <!-- Local File Tab -->
+        <div id="tab-content-local" class="flex flex-col gap-3 hidden">
+          <input type="file" id="file-input" class="hidden" accept="video/*"/>
+          <button id="local-load-btn"
+            class="w-full flex items-center justify-center gap-2 bg-surface-container-high border border-outline-variant/40 hover:border-primary/50 hover:bg-surface-bright text-on-surface font-headline font-semibold py-3.5 rounded-xl active:scale-95 transition-all text-sm">
+            <span class="material-symbols-outlined text-[18px]">upload_file</span>
+            Choose Video File
+          </button>
+          <p id="local-file-name" class="text-on-surface-variant text-xs text-center truncate hidden"></p>
+        </div>
+
+        <!-- Status box -->
+        <div id="status-box" class="hidden flex-col gap-3 bg-surface-container rounded-xl p-4 border border-outline-variant/20">
+          <div class="flex items-center gap-3">
+            <span id="status-icon" class="material-symbols-outlined text-primary spin text-[20px]">sync</span>
+            <div class="flex-1 min-w-0">
+              <p id="status-label" class="text-on-surface font-semibold text-sm font-headline truncate">Uploading video...</p>
+              <p id="status-sub" class="text-on-surface-variant text-xs mt-0.5">This may take a moment</p>
+            </div>
+            <div class="flex gap-1 flex-shrink-0">
+              <span class="dot-1 w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+              <span class="dot-2 w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+              <span class="dot-3 w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+            </div>
+          </div>
+          <div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+            <div id="progress-bar" class="progress-bar-shimmer h-full rounded-full transition-all duration-500" style="width: 20%"></div>
+          </div>
+          <p id="progress-label" class="text-on-surface-variant text-[11px]">Step 1 of 3 — Uploading</p>
+        </div>
+
+        <!-- How it works hint -->
+        <div class="mt-auto flex flex-col gap-2 pt-2 border-t border-outline-variant/15">
+          <p class="text-on-surface-variant text-[11px] font-semibold uppercase tracking-widest font-headline">How it works</p>
+          <div class="flex flex-col gap-1.5 text-on-surface-variant text-xs">
+            <div class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-primary/70 text-[14px] mt-0.5">frame_inspect</span>
+              <span>Frames & transcript indexed with AI embeddings</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-primary/70 text-[14px] mt-0.5">translate</span>
+              <span>Multilingual — search in any language</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="material-symbols-outlined text-primary/70 text-[14px] mt-0.5">speed</span>
+              <span>Semantic vector search across the whole video</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PANEL B: Search -->
+      <div id="panel-search" class="hidden flex-col gap-4 p-5 flex-1">
+
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <p class="text-on-surface font-headline font-semibold text-sm">Search</p>
+            <button id="reset-btn" title="Load a new video"
+              class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface text-xs transition-colors px-2 py-1 rounded-lg hover:bg-surface-container-high">
+              <span class="material-symbols-outlined text-[14px]">restart_alt</span>
+              New Video
+            </button>
+          </div>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-outline text-[18px]">search</span>
+            </div>
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Describe a moment in the video..."
+              class="w-full bg-surface-container-highest rounded-xl py-3.5 pl-10 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/30 outline-none transition-all text-sm border border-transparent focus:border-primary/20"
+            />
+          </div>
+          <button id="search-btn"
+            class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-semibold py-3.5 rounded-xl active:scale-95 transition-all shadow-lg shadow-primary/10 text-sm">
+            <span class="material-symbols-outlined text-[18px]">manage_search</span>
+            Search
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-3 flex-1">
+          <p class="text-on-surface-variant text-[11px] font-semibold uppercase tracking-widest font-headline">Relevant Moments</p>
+          <div id="results-container" class="flex flex-col gap-2.5">
+            <p class="text-on-surface-variant text-sm">Press Search to find moments in the video.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </main>
+
+</body>
+</html>

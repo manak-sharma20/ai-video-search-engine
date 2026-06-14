@@ -69,15 +69,15 @@ def process_audio_with_sliding_window(video_path, window_size=4.0, step_size=3.0
     return audio_embeddings
 
 
+def _clear_collection(coll):
+    ids = coll.get(include=[])["ids"]
+    if ids:
+        coll.delete(ids=ids)
+
+
 def index_video_file(video_path: str):
-    try:
-        visual_collection.delete(where={})
-    except Exception:
-        pass
-    try:
-        audio_collection.delete(where={})
-    except Exception:
-        pass
+    _clear_collection(visual_collection)
+    _clear_collection(audio_collection)
 
     print(f"Processing audio for {video_path}...")
     audio_embeddings = process_audio_with_sliding_window(video_path)

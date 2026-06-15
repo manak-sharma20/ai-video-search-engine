@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Obsidian Lens",
+  "version": "1.0.0",
+  "description": "Semantic search inside any YouTube video — powered by your local AI server",
+  "permissions": ["storage", "tabs", "scripting"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": ["content_script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Obsidian Lens"
+  }
+}

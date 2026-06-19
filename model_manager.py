@@ -12,7 +12,7 @@ _text_model = None
 def get_clip():
     global _clip_model, _clip_preprocess
     if _clip_model is None:
-        _clip_model, _clip_preprocess = clip.load("ViT-B/32", device=device)
+        _clip_model, _clip_preprocess = clip.load("ViT-L/14", device=device)
     return _clip_model, _clip_preprocess
 
 

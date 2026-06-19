@@ -253,11 +253,13 @@ async def search_video(query: str):
         raise HTTPException(status_code=400, detail="Query cannot be empty")
 
     clip_model, _ = get_clip()
-    tokens = clip.tokenize([query], truncate=True).to(device)
+    # "a photo of X" prompt template improves CLIP zero-shot retrieval accuracy
+    clip_prompt = f"a photo of {query}"
+    tokens = clip.tokenize([clip_prompt], truncate=True).to(device)
     with torch.no_grad():
         text_features = clip_model.encode_text(tokens)
         text_features /= text_features.norm(dim=-1, keepdim=True)
-    visual_results = search_visual(text_features.squeeze().tolist())
+    visual_results = search_visual(text_features.squeeze().tolist(), n=10)
 
     audio_results = search_audio(embed_query(query))
 

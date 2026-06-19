@@ -5,7 +5,7 @@ from PIL import Image
 BATCH_SIZE = 16
 
 
-def extract_frames(video_path, interval_seconds=2.0):
+def extract_frames(video_path, interval_seconds=1.0):
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     total_frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)

@@ -13,7 +13,7 @@ import torch
 from moviepy import VideoFileClip
 
 from model_manager import get_clip, device
-from audio_pipeline import extract_audio_segments, embed_text
+from audio_pipeline import extract_audio_segments, embed_text, embed_query
 from vision_pipeline import extract_frames, generate_clip_embeddings
 from vector_store import add_visual_embeddings, add_audio_embeddings, visual_collection, audio_collection
 from search import search_visual, search_audio, merge_results
@@ -259,7 +259,7 @@ async def search_video(query: str):
         text_features /= text_features.norm(dim=-1, keepdim=True)
     visual_results = search_visual(text_features.squeeze().tolist())
 
-    audio_results = search_audio(embed_text(query))
+    audio_results = search_audio(embed_query(query))
 
     results = merge_results(visual_results + audio_results)
     return {"results": results}

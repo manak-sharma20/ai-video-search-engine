@@ -27,7 +27,7 @@ def get_transcript_segments(video_id: str) -> list:
         raise Exception(f"Transcript unavailable for '{video_id}': {e}")
 
 
-def embed_transcript_segments(segments: list, window_size=4.0, step_size=3.0) -> list:
+def embed_transcript_segments(segments: list, window_size=8.0, step_size=3.0) -> list:
     """
     Sliding-window embedding over transcript segments.
     Returns list of (embedding_vector, timestamp) tuples.

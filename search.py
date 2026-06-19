@@ -11,7 +11,8 @@ def _query(coll, embedding, n=5):
     )
     out = []
     for dist, meta in zip(results["distances"][0], results["metadatas"][0]):
-        score = round(max(0.0, 1.0 - dist / 2.0), 3)
+        # cosine space: dist = 1 - cos_sim, so recover cos_sim directly
+        score = round(max(0.0, 1.0 - dist), 3)
         out.append({"timestamp": meta["timestamp"], "score": score})
     return out
 
@@ -24,7 +25,7 @@ def search_audio(query_embedding, n=5):
     return _query(audio_collection, query_embedding, n)
 
 
-def merge_results(results, proximity=2.0, min_score=0.15):
+def merge_results(results, proximity=2.0, min_score=0.10):
     """Deduplicate by timestamp proximity, filter low-confidence, cap at 8."""
     filtered = [r for r in results if r["score"] >= min_score]
     filtered.sort(key=lambda x: -x["score"])

@@ -54,6 +54,11 @@ function handleState(s) {
     return;
   }
 
+  if (s.status === 'not_started') {
+    // Service worker may have restarted — re-trigger indexing
+    bgMessage({ type: 'INDEX_VIDEO', videoId: currentVideoId });
+  }
+
   // Still indexing (running / starting / queued / not_started)
   show(sIndexing);
   updateProgress(s);

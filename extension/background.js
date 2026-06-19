@@ -3,8 +3,23 @@
 
 const SERVER = 'http://localhost:8000';
 
-// In-memory state (survives tab changes, lost on browser restart)
-const state = {}; // videoId -> { status, message, pct, title }
+// In-memory state cache; backed by chrome.storage.session to survive SW restarts
+const state = {};
+
+// ── State persistence ─────────────────────────────────────────────────────────
+
+function setState(videoId, data) {
+  state[videoId] = data;
+  chrome.storage.session.set({ [videoId]: data });
+}
+
+async function getState(videoId) {
+  if (state[videoId]) return state[videoId];
+  const result = await chrome.storage.session.get(videoId);
+  const stored = result[videoId];
+  if (stored) state[videoId] = stored;
+  return stored || null;
+}
 
 // ── Message handler ───────────────────────────────────────────────────────────
 
@@ -16,8 +31,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       break;
 
     case 'GET_STATE': {
-      sendResponse(state[msg.videoId] || { status: 'not_started', pct: 0 });
-      break;
+      getState(msg.videoId).then(s => {
+        sendResponse(s || { status: 'not_started', pct: 0 });
+      });
+      return true; // async response
     }
 
     case 'GET_ACTIVE_TAB_VIDEO':
@@ -45,17 +62,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 // ── Indexing logic ────────────────────────────────────────────────────────────
 
 async function handleIndex(videoId, title) {
-  const current = state[videoId];
+  const current = await getState(videoId);
   if (current && (current.status === 'done' || current.status === 'running')) return;
 
-  state[videoId] = { status: 'starting', message: 'Starting...', pct: 0, title };
+  setState(videoId, { status: 'starting', message: 'Starting...', pct: 0, title });
   setBadge(videoId, 'starting');
 
   try {
     // Verify server is reachable
     await fetch(`${SERVER}/indexed_video`, { signal: AbortSignal.timeout(3000) });
   } catch {
-    state[videoId] = { ...state[videoId], status: 'server_down', message: 'Server not running' };
+    setState(videoId, { ...state[videoId], status: 'server_down', message: 'Server not running' });
     setBadge(videoId, 'error');
     return;
   }
@@ -69,7 +86,7 @@ async function handleIndex(videoId, title) {
     });
     if (!res.ok) throw new Error(await res.text());
   } catch (e) {
-    state[videoId] = { ...state[videoId], status: 'error', message: String(e) };
+    setState(videoId, { ...state[videoId], status: 'error', message: String(e) });
     setBadge(videoId, 'error');
     return;
   }
@@ -88,7 +105,7 @@ async function pollUntilDone(videoId) {
       // Server went away temporarily — keep trying
       continue;
     }
-    state[videoId] = { ...state[videoId], ...data };
+    setState(videoId, { ...(state[videoId] || {}), ...data });
     setBadge(videoId, data.status, data.pct);
     if (data.status === 'done' || data.status === 'error') break;
   }

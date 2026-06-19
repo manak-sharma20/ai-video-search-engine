@@ -19,5 +19,5 @@ def get_clip():
 def get_text_model():
     global _text_model
     if _text_model is None:
-        _text_model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+        _text_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
     return _text_model
